@@ -10,6 +10,26 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
  */
 it('renders without crashing', () => {
   const wrapper = shallow(<App />);
-  console.log('DOM string serialized', `\n${wrapper.debug()}`);
-  expect(wrapper).toBeTruthy();
+  const appComponent = wrapper.find("[data-test='component-app']")
+  console.log('DOM string serialized', `\n${appComponent.debug()}`);
+  expect(appComponent.length).toBe(1);
 });
+
+it('renders increment button', () => {
+  const wrapper = shallow(<App />);
+  const appComponent = wrapper.find("[data-test='increment-button']")
+  expect(appComponent.length).toBe(1);
+})
+
+it('renders counter display', () => {
+  const wrapper = shallow(<App />);
+  const appComponent = wrapper.find("[data-test='counter-display']")
+  expect(appComponent.length).toBe(1);
+})
+
+it('counter starts at 0', () => {
+})
+
+it('clicking button increments counter display', () => {
+  
+})
