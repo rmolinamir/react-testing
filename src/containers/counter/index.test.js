@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
-import App from './App';
+import Counter from './index';
 
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 
@@ -13,7 +13,7 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
  * @return {ShallowWrapper}
  */
 function setup(props = {}, state = null) {
-  const wrapper = shallow(<App {...props} />);
+  const wrapper = shallow(<Counter {...props} />);
   if (state) wrapper.setState(state)
   return wrapper
 }
@@ -33,9 +33,9 @@ function findByTestAttr(wrapper, val) {
  */
 it('renders without crashing', () => {
   const wrapper = setup();
-  const appComponent = findByTestAttr(wrapper, 'component-app')
-  console.log('DOM string serialized', `\n${appComponent.debug()}`);
-  expect(appComponent.length).toBe(1);
+  const counterComponent = findByTestAttr(wrapper, 'component-app')
+  console.log('DOM string serialized', `\n${counterComponent.debug()}`);
+  expect(counterComponent.length).toBe(1);
 });
 
 it('renders increment button', () => {
