@@ -6,7 +6,7 @@ import Jotto from './index';
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 
 /**
- * Factory function to create a ShallowWrapper for the App component
+ * Factory function to create a ShallowWrapper for the Jotto component
  * @function setup
  * @param {object} props - Component props specific to this setup.
  * @param {object} state  - Initial state for setup.
@@ -32,5 +32,6 @@ function findByTestAttr(wrapper, val) {
  * You can also use `test`, it's synonimous with `it`.
  */
 it('renders without crashing', () => {
-
+  const wrapper = setup();
+  expect(wrapper.length).toBe(1);
 });
