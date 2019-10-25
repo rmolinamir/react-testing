@@ -1,7 +1,6 @@
 // Libraries
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import EnzymeAdapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
 
 // Dependencies
 import { findByTestAttr, checkPropTypes } from 'test/utils';
@@ -9,8 +8,7 @@ import { findByTestAttr, checkPropTypes } from 'test/utils';
 // Components
 import Congrats from '.';
 
-Enzyme.configure({ adapter: new EnzymeAdapter() });
-
+const defaultProps = { success: false };
 
 /**
  * Factory function to create a ShallowWrapper for the Congrats component
@@ -19,7 +17,8 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
  * @return {ShallowWrapper}
  */
 function setup(props = {}) {
-  return shallow(<Congrats {...props} />);
+  const setupProps = { ...defaultProps, ...props };
+  return shallow(<Congrats {...setupProps} />);
 }
 
 it('renders without error', () => {
@@ -29,7 +28,7 @@ it('renders without error', () => {
 });
 
 it('renders no text when `success` prop is `false`', () => {
-  const wrapper = setup({ success: false });
+  const wrapper = setup();
   const component = findByTestAttr(wrapper, 'component-congrats');
   expect(component.text()).toBe('');
 });
@@ -41,6 +40,5 @@ it('renders non-empty congrats message when `success` prop is `true`', () => {
 });
 
 it('does not throw warning with expected props', () => {
-  const expectedProps = { success: false };
-  checkPropTypes(Congrats.propTypes, expectedProps);
+  checkPropTypes(Congrats.propTypes, defaultProps);
 });

@@ -13,9 +13,9 @@ export default function Congrats(props){
   if (success) {
     return (
       <div data-test="component-congrats">
-        <span data-test="congrats-message">
+        <h2 data-test="congrats-message">
           Congratulations! You guessed the word!
-        </span>
+        </h2>
       </div>
     )
   }
@@ -25,5 +25,5 @@ export default function Congrats(props){
 }
 
 Congrats.propTypes = {
-  success: PropTypes.bool,
+  success: PropTypes.bool.isRequired,
 }
