@@ -1,5 +1,9 @@
 // Libraries
 import checkProps from 'check-prop-types';
+import { createStore } from 'redux';
+
+// Dependencies
+import rootReducer from 'reducers'
 
 /**
  * Return ShallowWrapper containing node(s) with the given data-test value.
@@ -27,4 +31,15 @@ export function checkPropTypes(component, conformingProps) {
     component.name,
   );
   expect(propError).toBeUndefined();
+}
+
+/**
+ * Create a testing store with imported reducers, middleware, and initial state.
+ *  globals: rootReducer
+ * @param {object} initialState - Initial state for the store.
+ * @function storeFactory
+ * @return {Store} - Redux Store
+ */
+export function storeFactory(initialState) {
+  return createStore(rootReducer, initialState);
 }
