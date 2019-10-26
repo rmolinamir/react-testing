@@ -22,9 +22,9 @@ export default function GuessedWords(props) {
     contents = (
       <div data-test="guessed-words">
         <h3>Guessed Words</h3>
-        <table>
+        <table className="table table-sm">
           {/* Table Head */}
-          <thead>
+          <thead className="thead-light">
             <tr>
               <th>Guess</th>
               <th>Matching Letters</th>

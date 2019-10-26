@@ -12,7 +12,7 @@ export default function Congrats(props){
   const { success } = props;
   if (success) {
     return (
-      <div data-test="component-congrats">
+      <div data-test="component-congrats" className="alert alert-success">
         <h2 data-test="congrats-message">
           Congratulations! You guessed the word!
         </h2>
