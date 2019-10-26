@@ -19,7 +19,7 @@ describe('render', () => {
   describe('word has not been guessed', () => {
     let wrapper;
     beforeEach(() => {
-      const initialState = { successReducer: false };
+      const initialState = { success: false };
       wrapper = setup(initialState);
     });
 
@@ -42,7 +42,7 @@ describe('render', () => {
   describe('word has been guessed', () => {
     let wrapper;
     beforeEach(() => {
-      const initialState = { successReducer: true };
+      const initialState = { success: true };
       wrapper = setup(initialState);
     })
     it('renders the component without errors', () => {

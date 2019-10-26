@@ -1,9 +1,10 @@
 // Libraries
 import checkProps from 'check-prop-types';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 
 // Dependencies
-import rootReducer from 'reducers'
+import rootReducer from 'reducers';
+import { middlewares } from 'configureStore';
 
 /**
  * Return ShallowWrapper containing node(s) with the given data-test value.
@@ -35,11 +36,12 @@ export function checkPropTypes(component, conformingProps) {
 
 /**
  * Create a testing store with imported reducers, middleware, and initial state.
- *  globals: rootReducer
+ *  globals: rootReducer, middllewares
  * @param {object} initialState - Initial state for the store.
  * @function storeFactory
  * @return {Store} - Redux Store
  */
 export function storeFactory(initialState) {
-  return createStore(rootReducer, initialState);
+  const createStoreWithMiddleware = applyMiddleware(...middlewares);
+  return createStore(rootReducer, initialState, createStoreWithMiddleware);
 }

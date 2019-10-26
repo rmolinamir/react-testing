@@ -2,7 +2,7 @@ import { actionTypes } from "actions";
 
 /**
  * @function successReducer
- * @param {array} state - Array of guessed words.
+ * @param {boolean} state - Boolean of the success value.
  * @param {object} action - Action to be reduced.
  * @returns {boolean} - New success rate.
  */
