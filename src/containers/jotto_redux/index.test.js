@@ -1,9 +1,27 @@
+// Libraries
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
+
+// Dependencies
+import { storeFactory } from 'test/utils';
+
+// Components
 import Jotto from './index';
 
 Enzyme.configure({ adapter: new EnzymeAdapter() });
+
+// Initial state for the store factory.
+const initialState = {
+  guessedWords: [
+    {
+      guessedWord: 'train',
+      letterMatchCount: 3,
+    }
+  ],
+  secretWord: 'party',
+  success: true,
+};
 
 /**
  * Factory function to create a ShallowWrapper for the Jotto component
@@ -12,26 +30,45 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
  * @param {object} state  - Initial state for setup.
  * @return {ShallowWrapper}
  */
-function setup(props = {}, state = null) {
-  const wrapper = shallow(<Jotto {...props} />);
-  if (state) wrapper.setState(state)
-  return wrapper
+function setup(initialState = {}) {
+  const store = storeFactory(initialState);
+  const wrapper = shallow(<Jotto store={store} />).dive().dive();
+  return wrapper;
 }
 
-/**
- * Return ShallowWrapper containing node(s) with the given data-test value.
- * @param {ShallowWrapper} wrapper - Enzyme shallow wrapper to search within
- * @param {string} val - Value of data-test attribute for search.
- * @return {ShallowWrapper}
- */
-function findByTestAttr(wrapper, val) {
-  return wrapper.find(`[data-test="${val}"]`)
-}
+describe('render', () => {
+  /**
+   * You can also use `test`, it's synonimous with `it`.
+   */
+  it('renders without crashing', () => {
+    const wrapper = setup();
+    expect(wrapper.length).toBe(1);
+  });
+});
 
-/**
- * You can also use `test`, it's synonimous with `it`.
- */
-it('renders without crashing', () => {
-  const wrapper = setup();
-  expect(wrapper.length).toBe(1);
+describe('redux props', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup(initialState);
+  });
+
+  it('has `guessedWords` piece of state as a prop', () => {
+    const { guessedWords: guessedWordsProp } = wrapper.instance().props;
+    expect(guessedWordsProp).toEqual(initialState.guessedWords);
+  });
+
+  it('has `secretWord` piece of state as a prop', () => {
+    const { secretWord: secretWordProp } = wrapper.instance().props;
+    expect(secretWordProp).toBe(initialState.secretWord);
+  });
+
+  it('has `success` piece of state as a prop', () => {
+    const { success: successProp } = wrapper.instance().props;
+    expect(successProp).toBe(initialState.success);
+  });
+
+  it('`getSecretWord` action creator is a function prop', () => {
+    const { getSecretWord } = wrapper.instance().props;
+    expect(getSecretWord).toBeInstanceOf(Function);
+  });
 });

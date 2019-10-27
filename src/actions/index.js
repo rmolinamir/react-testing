@@ -34,7 +34,9 @@ export const guessWord = guessedWord => {
 };
 
 /**
- * 
+ * Returns a promise that fetches the secret word from the local server.
+ * A dispatch to the secret word reducer is executed inside the `.then`
+ * callback.
  */
 export const getSecretWord = () => {
   return dispatch => {
