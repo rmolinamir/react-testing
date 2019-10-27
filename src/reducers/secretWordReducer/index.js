@@ -1,11 +1,16 @@
 import { actionTypes } from "actions";
 
 /**
- * @function guessedWordReducer
- * @param {string} secretWord - Secret word string.
- * @param {object} action - Action to be reduced.
- * @returns {boolean} - New success rate.
+ * @function secretWordReducer
+ * @param {string} state - State before reducer.
+ * @param {object} action - Action sent to reducer.
+ * @returns {boolean} - New state (secret word payload from action).
  */
 export default (state = null, action) => {
-  return state;
+  switch (action.type) {
+    case actionTypes.SET_SECRET_WORD:
+      return action.payload;
+    default:
+      return state;
+  }
 };
