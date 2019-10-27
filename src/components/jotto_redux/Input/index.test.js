@@ -60,7 +60,7 @@ describe('render', () => {
       const submitButton = findByTestAttr(wrapper, 'submit-button');
       expect(submitButton.length).toBe(0);
     });
-  })
+  });
 });
 
 describe('redux props', () => {
@@ -75,7 +75,7 @@ describe('redux props', () => {
     const wrapper = setup();
     const { guessWord: guessWordProp } = wrapper.instance().props;
     expect(guessWordProp).toBeInstanceOf(Function);
-  })
+  });
 });
 
 describe('`guessWord` action creator call', () => {
@@ -96,6 +96,7 @@ describe('`guessWord` action creator call', () => {
 
     // Find button and simulate click
     const submitButton = findByTestAttr(wrapper, 'submit-button');
+
     // Simulate the event
     submitButton.simulate('click', { preventDefault() {} });
   });
@@ -106,10 +107,44 @@ describe('`guessWord` action creator call', () => {
     expect(getSecretWordCallCount).toBe(1);
   });
 
-  it('calls `guessWord` with inpu value as argument', () => {
+  it('calls `guessWord` with input value as argument', () => {
     console.log('guessWordMock.mock.calls', guessWordMock.mock.calls)
     // guessWordMock.mock.calls returns [[any]] - [['']]
     const guessWordArg = guessWordMock.mock.calls[0][0];
     expect(guessWordArg).toBe(guessedWord);
-  })
+  });
+
+  it('input box state clears on submit', () => {
+    expect(wrapper.state('currentGuess')).toBe('');
+  });
 })
+
+
+describe('if currentGuess is null', () => {
+  let guessWordMock;
+  let wrapper;
+  beforeEach(() => {
+    // Setting up mock & props for `guessWord`
+    guessWordMock = jest.fn();
+    const props = {
+      guessWord: guessWordMock,
+      success: false,
+    }
+    wrapper = shallow(<UnconnectedInput {...props} />);
+
+    // Add state value to input box
+    wrapper.setState({ currentGuess: '' });
+
+    // Find button and simulate click
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+
+    // Simulate the event
+    submitButton.simulate('click', { preventDefault() {} });
+  });
+
+  it('does not calls `guessWord` action creator', () => {
+    // Check if the mock did not run
+    const getSecretWordCallCount = guessWordMock.mock.calls.length;
+    expect(getSecretWordCallCount).toBe(0);
+  });
+});

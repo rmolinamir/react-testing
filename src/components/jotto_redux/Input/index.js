@@ -13,7 +13,7 @@ export class Input extends Component {
 
     // Initiaize state
     this.state = {
-      currentGuess: null,
+      currentGuess: '',
     };
 
     // Binding this for class methods
@@ -33,7 +33,9 @@ export class Input extends Component {
     const { currentGuess } = this.state;
     const { guessWord } = this.props;
     if (currentGuess && currentGuess.length) {
-      guessWord(currentGuess);
+      this.setState({ currentGuess: '' }, () => {
+        guessWord(currentGuess);
+      });
     }
   }
 

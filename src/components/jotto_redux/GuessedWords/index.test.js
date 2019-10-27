@@ -9,7 +9,7 @@ const defaultProps = {
     { guessedWord: 'train', letterMatchCount: 3 },
     { guessedWord: 'raids', letterMatchCount: 3 },
   ]
-}
+};
 
 /**
  * Factory function to create a ShallowWrapper for the GuessedWords component
@@ -68,5 +68,12 @@ describe('if there are words guessed', () => {
   it('correct number of guessed words', () => {
     const guessedWordsNodes = findByTestAttr(wrapper, 'guessed-word');
     expect(guessedWordsNodes.length).toBe(guessedWords.length);
+  });
+
+  it('renders the correct guess number for each guessed word', () => {
+    const guessedWordsNodes = findByTestAttr(wrapper, 'guessed-word-number');
+    guessedWordsNodes.forEach((node, index) => {
+      expect(node.text()).toContain(`${index + 1}`);
+    });
   });
 });
