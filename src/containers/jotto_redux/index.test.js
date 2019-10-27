@@ -1,15 +1,12 @@
 // Libraries
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import EnzymeAdapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
 
 // Dependencies
 import { storeFactory } from 'test/utils';
 
 // Components
-import Jotto from './index';
-
-Enzyme.configure({ adapter: new EnzymeAdapter() });
+import JottoRedux, { JottoRedux as UnconnectedJottoRedux } from './index';
 
 // Initial state for the store factory.
 const initialState = {
@@ -24,7 +21,7 @@ const initialState = {
 };
 
 /**
- * Factory function to create a ShallowWrapper for the Jotto component
+ * Factory function to create a ShallowWrapper for the JottoRedux component
  * @function setup
  * @param {object} props - Component props specific to this setup.
  * @param {object} state  - Initial state for setup.
@@ -32,7 +29,7 @@ const initialState = {
  */
 function setup(initialState = {}) {
   const store = storeFactory(initialState);
-  const wrapper = shallow(<Jotto store={store} />).dive().dive();
+  const wrapper = shallow(<JottoRedux store={store} />).dive().dive();
   return wrapper;
 }
 
@@ -72,3 +69,18 @@ describe('redux props', () => {
     expect(getSecretWord).toBeInstanceOf(Function);
   });
 });
+
+it(' runs `getSecretWord` on UnconnectedJottoRedux mount', () => {
+  const getSecretWordMock = jest.fn();
+  const props = {
+    ...initialState,
+    getSecretWord: getSecretWordMock,
+  };
+  // Set up app component with getSecretWordMock as the getSecretWordProp.
+  const wrapper = shallow(<UnconnectedJottoRedux {...props} />);
+  // Run lifecycle method
+  wrapper.instance().componentDidMount();
+  // Check if the mock ran
+  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
+  expect(getSecretWordCallCount).toBe(1);
+})

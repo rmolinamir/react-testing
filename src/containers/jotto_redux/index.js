@@ -10,7 +10,12 @@ import Congrats from 'components/jotto_redux/Congrats';
 import Input from 'components/jotto_redux/Input';
 import GuessedWords from 'components/jotto_redux/GuessedWords';
 
-class App extends Component {
+export class JottoRedux extends Component {
+  componentDidMount() {
+    const { getSecretWord } = this.props;
+    getSecretWord();
+  }
+
   render() {
     const { guessedWords, success } = this.props;
     return (
@@ -34,4 +39,4 @@ const mapDispatchToProps = {
   getSecretWord,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(JottoRedux);
