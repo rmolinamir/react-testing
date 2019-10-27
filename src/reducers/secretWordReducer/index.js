@@ -2,10 +2,10 @@ import { actionTypes } from "actions";
 
 /**
  * @function guessedWordReducer
- * @param {array} state - Array of guessed words.
+ * @param {string} secretWord - Secret word string.
  * @param {object} action - Action to be reduced.
  * @returns {boolean} - New success rate.
  */
-export default (state, action) => {
-  return null;
+export default (state = null, action) => {
+  return state;
 };
