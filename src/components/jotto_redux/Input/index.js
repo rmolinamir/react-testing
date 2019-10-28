@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 // Actions
 import { guessWord, giveUpGame } from 'actions';
 
-const INPUT_NAME = 'guess-word-input';
-
 export class Input extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +24,7 @@ export class Input extends Component {
     event.preventDefault();
     this.setState({
       currentGuess: event.target.value,
-    })
+    });
   }
 
   handleOnSubmit(event) {
@@ -62,7 +60,6 @@ export class Input extends Component {
           className="mb-2 mx-sm-3"
           type="text"
           placeholder="enter guess"
-          name={INPUT_NAME}
           value={currentGuess}
           onChange={this.handleOnChange}
         />

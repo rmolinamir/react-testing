@@ -86,3 +86,25 @@ export const giveUpGame = () => {
     });
   };
 }
+
+
+/**
+ * Sets the user secret word and start a new game if `userSecretWord` is not empty.
+ * @function setUserSecretWord
+ * @param {string} userSecretWord - User secret word.
+ * @returns {() => Promise} - Redux Thunk function that returns a promise.
+ */
+export const setUserSecretWord = userSecretWord => {
+  if (userSecretWord) {
+    return dispatch => {
+      dispatch({
+        type: actionTypes.NEW_WORD,
+      });
+      dispatch({
+        type: actionTypes.SET_SECRET_WORD,
+        payload: userSecretWord,
+      });
+    }
+  }
+  return () => ({});
+};

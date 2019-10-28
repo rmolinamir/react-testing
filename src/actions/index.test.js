@@ -3,7 +3,7 @@ import moxios from 'moxios';
 
 // Dependencies
 import { storeFactory } from 'test/utils';
-import { getSecretWord, getNewWord, giveUpGame } from '.'
+import { getSecretWord, getNewWord, giveUpGame, setUserSecretWord } from '.'
 
 const secretWord = 'party';
 
@@ -136,3 +136,44 @@ describe('`giveUpGame` action creator', () => {
   });
 });
 
+describe('`setUserSecretWord` action creator', () => {
+  const initialState = {
+    giveUp: false,
+    guessedWords: [
+      { guessedWord: 'train', letterMatchCount: 3 },
+      { guessedWord: 'raids', letterMatchCount: 3 },
+    ],
+    secretWord: 'party',
+    success: false,
+  };
+  let store;
+  beforeEach(() => {
+    store = storeFactory(initialState);
+  });
+
+  it('`secretWord` piece of state does not changes if `userSecretWord` is empty', () => {
+    store.dispatch(setUserSecretWord());
+    const newState = store.getState();
+    expect(newState.secretWord).toBe(initialState.secretWord);
+  });
+
+  it('`secretWord` piece of state changes to `userSecretWord` if is not empty', () => {
+    const userSecretWord = 'train';
+    store.dispatch(setUserSecretWord(userSecretWord));
+    const newState = store.getState();
+    expect(newState.secretWord).toBe(userSecretWord);
+  });
+
+  it('`guessedWords` piece of state does not changes if `userSecretWord` is empty', () => {
+    store.dispatch(setUserSecretWord());
+    const newState = store.getState();
+    expect(newState.guessedWords).toEqual(initialState.guessedWords);
+  });
+
+  it('`guessedWords` piece of state changes to `userSecretWord` if is not empty', () => {
+    const userSecretWord = 'train';
+    store.dispatch(setUserSecretWord(userSecretWord));
+    const newState = store.getState();
+    expect(newState.guessedWords).toEqual([]);
+  });
+});
