@@ -23,7 +23,7 @@ export class JottoRedux extends Component {
       <div className="App" data-test="component-app">
         <h1>Jotto</h1>
         <div>The secret word is: {secretWord}</div>
-        <Congrats success={success} />
+        <Congrats />
         <Input />
         <TotalGuesses guessedWords={guessedWords} />
         <GuessedWords guessedWords={guessedWords} />

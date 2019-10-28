@@ -22,7 +22,9 @@ function setup(props = {}) {
   return wrapper;
 }
 
-checkPropTypes(TotalGuesses, defaultProps);
+it('does not throw warning with expected props', () => {
+  checkPropTypes(TotalGuesses, defaultProps);
+});
 
 describe('if there are no guessed words', () => {
   let wrapper;
