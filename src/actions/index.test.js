@@ -3,7 +3,7 @@ import moxios from 'moxios';
 
 // Dependencies
 import { storeFactory } from 'test/utils';
-import { getSecretWord, getNewWord } from '.'
+import { getSecretWord, getNewWord, giveUpGame } from '.'
 
 const secretWord = 'party';
 
@@ -41,12 +41,6 @@ describe('`getSecretWord` action creator', () => {
     });
   });
 
-  it('testing jest.fn()', () => {
-    const guessSecretWordCallback = jest.fn();
-    guessSecretWordCallback();
-    expect(guessSecretWordCallback.mock.calls.length).toBe(1);
-  });
-
   it('executes callback if passed', () => {
     const guessSecretWordCallback = jest.fn();
     return store.dispatch(getSecretWord(guessSecretWordCallback)).then(() => {
@@ -57,6 +51,7 @@ describe('`getSecretWord` action creator', () => {
 
 describe('`getNewWord` action creator', () => {
   const initialState = {
+    giveUp: true,
     guessedWords: [
       { guessedWord: 'train', letterMatchCount: 3 },
       { guessedWord: 'raids', letterMatchCount: 3 },
@@ -75,24 +70,69 @@ describe('`getNewWord` action creator', () => {
     moxios.uninstall();
   });
 
+  it('`giveUp` piece of state is false', () => {
+    return store.dispatch(getNewWord()).then(() => {
+      const newState = store.getState();
+      expect(newState.giveUp).toBe(false);
+    });
+  });
+
   it('`guessedWords` piece of state is an empty array', () => {
-    return store.dispatch(getNewWord()).then(response => {
+    return store.dispatch(getNewWord()).then(() => {
       const newState = store.getState();
       expect(newState.guessedWords).toEqual([]);
     });
   });
 
   it('`secretWord` piece of state changes', () => {
-    return store.dispatch(getNewWord()).then(response => {
+    return store.dispatch(getNewWord()).then(() => {
       const newState = store.getState();
       expect(newState.secretWord).not.toBe(initialState.secretWord);
     });
   });
 
   it('`success` piece of state is false', () => {
-    return store.dispatch(getNewWord()).then(response => {
+    return store.dispatch(getNewWord()).then(() => {
       const newState = store.getState();
-      expect(newState.success).toBe(!initialState.success);
+      expect(newState.success).toBe(false);
     });
   });
 });
+
+describe('`giveUpGame` action creator', () => {
+  const initialState = {
+    giveUp: false,
+    guessedWords: [
+      { guessedWord: 'train', letterMatchCount: 3 },
+      { guessedWord: 'raids', letterMatchCount: 3 },
+    ],
+    secretWord: 'party',
+    success: false,
+  };
+  let store;
+  beforeEach(() => {
+    store = storeFactory(initialState);
+    store.dispatch(giveUpGame());
+  });
+
+  it('`giveUp` piece of state is true', () => {
+    const newState = store.getState();
+    expect(newState.giveUp).toBe(true);
+  });
+
+  it('`guessedWords` piece of state does not changes', () => {
+    const newState = store.getState();
+    expect(newState.guessedWords).toEqual(initialState.guessedWords);
+  });
+
+  it('`secretWord` piece of state does not changes', () => {
+    const newState = store.getState();
+    expect(newState.secretWord).toBe(initialState.secretWord);
+  });
+
+  it('`success` piece of state is false', () => {
+    const newState = store.getState();
+    expect(newState.success).toBe(false);
+  });
+});
+

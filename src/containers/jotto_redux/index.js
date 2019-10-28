@@ -7,6 +7,7 @@ import { getSecretWord } from 'actions';
 
 // Components
 import Congrats from 'components/jotto_redux/Congrats';
+import GiveUpMessage from 'components/jotto_redux/GiveUpMessage';
 import Input from 'components/jotto_redux/Input';
 import GuessedWords from 'components/jotto_redux/GuessedWords';
 import TotalGuesses from 'components/jotto_redux/TotalGuesses';
@@ -18,12 +19,13 @@ export class JottoRedux extends Component {
   }
 
   render() {
-    const { guessedWords, secretWord, success } = this.props;
+    const { guessedWords, secretWord } = this.props;
     return (
       <div className="App" data-test="component-app">
         <h1>Jotto</h1>
         <div>The secret word is: {secretWord}</div>
         <Congrats />
+        <GiveUpMessage />
         <Input />
         <TotalGuesses guessedWords={guessedWords} />
         <GuessedWords guessedWords={guessedWords} />

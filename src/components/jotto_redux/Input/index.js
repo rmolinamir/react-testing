@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Actions
-import { guessWord } from 'actions';
+import { guessWord, giveUpGame } from 'actions';
 
 const INPUT_NAME = 'guess-word-input';
 
@@ -19,6 +19,7 @@ export class Input extends Component {
     // Binding this for class methods
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    this.handleOnGiveUp = this.handleOnGiveUp.bind(this);
   }
 
   handleOnChange(event) {
@@ -39,11 +40,23 @@ export class Input extends Component {
     }
   }
 
+  handleOnGiveUp(event) {
+    event.preventDefault();
+    const { giveUpGame } = this.props;
+    giveUpGame();
+  }
+
+  /**
+   * Render method. Conditionally renders `content` if `giveUp` or `success` is `true`.
+   */
   render() {
     const { currentGuess } = this.state;
-    const { success } = this.props;
-    const contents = !success && (
-      <form className="form-inline">
+    const { success, giveUp } = this.props;
+    const contents = (success || giveUp) ? null : (
+      <form
+        data-test="form-box"
+        className="form-inline"
+      >
         <input
           data-test="input-box"
           className="mb-2 mx-sm-3"
@@ -61,6 +74,14 @@ export class Input extends Component {
         >
           Submit
         </button>
+        <button
+          data-test="give-up-button"
+          type="submit"
+          className="btn btn-danger ml-2 mb-2"
+          onClick={this.handleOnGiveUp}
+        >
+          Give Up
+        </button>
       </form>
     );
     return (
@@ -73,10 +94,12 @@ export class Input extends Component {
 
 const mapStateToProps = state => ({
   success: state.success,
+  giveUp: state.giveUp,
 });
 
 const mapDispatchToProps = {
   guessWord,
+  giveUpGame,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Input);

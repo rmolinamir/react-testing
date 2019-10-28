@@ -21,7 +21,7 @@ export const actionTypes = {
  */
 export const guessWord = guessedWord => {
   return function(dispatch, getState) {
-  const { secretWord } = getState();
+    const { secretWord } = getState();
     const letterMatchCount = getLetterMatchCount(guessedWord, secretWord);
 
     dispatch({
@@ -40,7 +40,7 @@ export const guessWord = guessedWord => {
  * Dispatches `SET_SECRET_WORD` action executed after the promise is resolved.
  * @function getSecretWord
  * @param {Function} callback - callback (conditionally) executed after the server request is resolved.
- * @returns {Function} - Redux Thunk function.
+ * @returns {() => Promise} - Redux Thunk function that returns a promise.
  */
 export const getSecretWord = callback => {
   return dispatch => {
@@ -58,7 +58,7 @@ export const getSecretWord = callback => {
  * Executes `getSecretWord` and sends a callback parameter to the Redux Thunk function
  * that resets the store `guessedWords` reducer, and the `success` reducer.
  * @function getNewWord
- * @return {Function}
+ * @returns {() => Promise} - Redux Thunk function that returns a promise.
  */
 export const getNewWord = () => {
   return dispatch => {
@@ -79,8 +79,10 @@ export const getNewWord = () => {
  * @function giveUp
  * @returns {function} - Redux Thunk function.
  */
-export const giveUp = () => {
-  return dispatch => {
-
-  }
+export const giveUpGame = () => {
+  return function(dispatch) {
+    dispatch({
+      type: actionTypes.GIVE_UP,
+    });
+  };
 }
