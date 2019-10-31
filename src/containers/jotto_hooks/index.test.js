@@ -1,19 +1,27 @@
 // Libraries
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 // Dependencies
 import { findByTestAttr } from 'test/utils';
+import hookActions from 'actions/hookActions';
 
 // Components
 import JottoHooks from '.';
 
+const mockGetSecretWord = jest.fn();
+
 /**
  * Setup function for app components
- * @returns {ShallowWrapper}
+ * @returns {ReactWrapper}
  */
 function setup() {
-  return shallow(<JottoHooks />);
+  // Important to clear mock calls before running further tests
+  mockGetSecretWord.mockClear();
+  // Use mount, because useEffect is not called on `shallow`
+  // https://github.com/airbnb/enzyme/issues/2086
+  hookActions.getSecretWord = mockGetSecretWord;
+  return mount(<JottoHooks />);
 }
 
 it('renders JottoHooks without error', () => {
@@ -21,3 +29,10 @@ it('renders JottoHooks without error', () => {
   const component = findByTestAttr(wrapper, 'component-jotto-hooks');
   expect(component.length).toBe(1);
 });
+
+describe('renders', () => {
+  it('`getSecretWord` gets called on JottoHooks render', () => {
+    setup();
+    expect(mockGetSecretWord).toHaveBeenCalled();
+  });
+})
