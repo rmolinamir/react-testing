@@ -4,6 +4,9 @@ import React from 'react';
 // Dependencies
 import hookActions from 'actions/hookActions';
 
+// Components
+import Input from 'components/jotto_hooks/Input';
+
 const actionTypes = {
   SET_SECRET_WORD: 'SET_SECRET_WORD',
 }
@@ -45,7 +48,11 @@ export default function JottoHooks() {
     hookActions.getSecretWord(setSecretWord);
   }, [dispatch]);
 
+  const { secretWord } = state;
+
   return (
-    <div data-test="component-jotto-hooks" />
+    <div data-test="component-jotto-hooks">
+      <Input secretWord={secretWord} />
+    </div>
   );
 }

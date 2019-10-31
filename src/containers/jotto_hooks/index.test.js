@@ -31,8 +31,17 @@ it('renders JottoHooks without error', () => {
 });
 
 describe('renders', () => {
-  it('`getSecretWord` gets called on JottoHooks render', () => {
+  it('calls `getSecretWord` on JottoHooks render', () => {
     setup();
     expect(mockGetSecretWord).toHaveBeenCalled();
+  });
+
+  it('does not update `secretWord` on JottoHooks update', () => {
+    const wrapper = setup();
+    mockGetSecretWord.mockClear();
+    // wrapper.update() doesn't trigger update
+    // https://github.com/airbnb/enzyme/issues/2254
+    wrapper.setProps();
+    expect(mockGetSecretWord).not.toHaveBeenCalled();
   });
 })
