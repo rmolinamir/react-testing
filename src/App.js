@@ -28,7 +28,7 @@ export default function App() {
           <Route path="/jotto-hooks" exact component={JottoHooks} />
           <Route path="/jotto-redux" exact component={JottoRedux} />
           <Route path="/counter" exact component={Counter} />
-          <Redirect to="/jotto-redux" />
+          <Redirect to="/jotto-hooks" />
         </Switch>
       </main>
     </>

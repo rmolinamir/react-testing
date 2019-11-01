@@ -15,9 +15,14 @@ const mockGetSecretWord = jest.fn();
  * Setup function for app components
  * @returns {ReactWrapper}
  */
-function setup() {
+function setup(secretWord = "party") {
   // Important to clear mock calls before running further tests
   mockGetSecretWord.mockClear();
+  const useReducerMock = jest.fn().mockReturnValue([
+    { secretWord }, // State value
+    jest.fn(), // Dispatch function
+  ]);
+  React.useReducer = useReducerMock;
   // Use mount, because useEffect is not called on `shallow`
   // https://github.com/airbnb/enzyme/issues/2086
   hookActions.getSecretWord = mockGetSecretWord;
@@ -26,11 +31,11 @@ function setup() {
 
 it('renders JottoHooks without error', () => {
   const wrapper = setup();
-  const component = findByTestAttr(wrapper, 'component-jotto-hooks');
-  expect(component.length).toBe(1);
+  const componentJottoHooks = findByTestAttr(wrapper, 'component-jotto-hooks');
+  expect(componentJottoHooks.length).toBe(1);
 });
 
-describe('renders', () => {
+describe('`getSecretWord` calls`', () => {
   it('calls `getSecretWord` on JottoHooks render', () => {
     setup();
     expect(mockGetSecretWord).toHaveBeenCalled();
@@ -44,4 +49,38 @@ describe('renders', () => {
     wrapper.setProps();
     expect(mockGetSecretWord).not.toHaveBeenCalled();
   });
-})
+});
+
+describe('when `secretWord` is not `null`', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup('party');
+  });
+
+  it('renders app', () => {
+    const componentJottoHooks = findByTestAttr(wrapper, 'component-jotto-hooks');
+    expect(componentJottoHooks.exists()).toBe(true);
+  });
+
+  it('does not renders spinner', () => {
+    const spinnerComponent = findByTestAttr(wrapper, 'spinner');
+    expect(spinnerComponent.exists()).toBe(false);
+  });
+});
+
+describe('when `secretWord` is `null`', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup(null);
+  });
+
+  it('does not renders app', () => {
+    const componentJottoHooks = findByTestAttr(wrapper, 'component-jotto-hooks');
+    expect(componentJottoHooks.exists()).toBe(false);
+  });
+
+  it('renders spinner', () => {
+    const spinnerComponent = findByTestAttr(wrapper, 'spinner');
+    expect(spinnerComponent.exists()).toBe(true);
+  });
+});

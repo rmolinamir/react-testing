@@ -50,8 +50,19 @@ export default function JottoHooks() {
 
   const { secretWord } = state;
 
+  if (!secretWord) {
+    return (
+      <div className="container" data-test="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <p>Loading secret word</p>
+      </div>
+    );
+  }
+
   return (
-    <div data-test="component-jotto-hooks">
+    <div className="container" data-test="component-jotto-hooks">
       <Input secretWord={secretWord} />
     </div>
   );
