@@ -2,7 +2,9 @@
 import axios from 'axios';
 
 export async function getSecretWord(setSecretWord) {
-  const response = await axios('http://localhost.com:3030');
+  console.log('getSecretWord');
+  const response = await axios('http://localhost:3030/');
+  console.log('response', response);
   setSecretWord(response.data);
 }
 
