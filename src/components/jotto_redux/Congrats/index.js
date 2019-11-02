@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getNewWord } from 'actions';
 
 /**
- * Functional react component for congrutulatory message.
+ * Class react component for congrutulatory message.
  * @function
  * @param {object} - React.props
  * @returns {JSX.Element} - Rendered component (or null if `success` prop is `true`)
