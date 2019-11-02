@@ -1,23 +1,26 @@
 // Libraries
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 // Dependencies
 import { findByTestAttr, checkPropTypes } from 'test/utils';
+import languageContext from 'contexts/languageContext';
+import { languageStrings } from 'helpers/strings/index'
 
 // Components
 import Input from '.';
 
-const defaultProps = {
-  secretWord: 'train',
-}
-
 /**
  * Setup function for app components
- * @returns {ShallowWrapper}
+ * @returns {mountWrapper}
  */
-function setup(initialProps) {
-  return shallow(<Input {...initialProps} />);
+function setup({ secretWord = 'train', language = 'en' } = {}) {
+  console.log('setup language', language);
+  return mount(
+    <languageContext.Provider value={language}>
+      <Input secretWord={secretWord} />
+    </languageContext.Provider>
+  );
 }
 
 it('renders without errors', () => {
@@ -27,7 +30,39 @@ it('renders without errors', () => {
 });
 
 it('renders with the correct props', () => {
-  checkPropTypes(Input, defaultProps);
+  checkPropTypes(Input, { secretWord: 'train' });
+});
+
+describe('renders', () => {
+  let wrapper;
+  beforeEach(() => {
+    // Setting 
+    wrapper = setup();
+  });
+
+  it('renders without errors', () => {
+    const inputComponent = findByTestAttr(wrapper, 'component-input');
+    expect(inputComponent.exists()).toBe(true);
+  });
+
+  it('renders submit-button', () => {
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    expect(submitButton.exists()).toBe(true);
+  });
+});
+
+describe('languagePicker', () => {
+  test('correctly renders submit string in english', () => {
+    const wrapper = setup();
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    expect(submitButton.text()).toBe(languageStrings.en.submit);
+  });
+
+  test('correctly renders submit string in emoji', () => {
+    const wrapper = setup({ language: 'emoji' });
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    expect(submitButton.text()).toBe(languageStrings.emoji.submit);
+  });
 });
 
 describe('state controlled input field', () => {

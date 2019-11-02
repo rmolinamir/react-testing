@@ -2,8 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Dependencies
+import languageContext from 'contexts/languageContext';
+import stringsModule from 'helpers/strings/index'
+
 export default function Input(props) {
   const [currentGuess, setCurrentGuess] = React.useState('');
+  const language = React.useContext(languageContext);
 
   /**
    * Handles input `onChange` event by setting the `currentGuess` value.
@@ -42,7 +47,7 @@ export default function Input(props) {
           onClick={handleOnClick}
           className="btn btn-primary mb-2"
         >
-          Submit
+          {stringsModule.getStringByLanguage(language, 'submit')}
         </button>
       </form>
     </div>

@@ -19,7 +19,10 @@ function setup(secretWord = "party") {
   // Important to clear mock calls before running further tests
   mockGetSecretWord.mockClear();
   const useReducerMock = jest.fn().mockReturnValue([
-    { secretWord }, // State value
+    {
+      secretWord,
+      language: 'en',
+    }, // State value
     jest.fn(), // Dispatch function
   ]);
   React.useReducer = useReducerMock;
