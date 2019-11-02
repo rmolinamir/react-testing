@@ -5,6 +5,7 @@ export const languageStrings = {
     guessPrompt: 'Try to guess the secret word!',
     guessInputPlaceholder: 'enter guess',
     guessColumnHeader: 'Guessed Words',
+    guessedWordAttemptNumberHeader: '#',
     guessedWords: 'Guesses',
     matchingLettersColumnHeader: 'Matching Letters',
   },
@@ -14,6 +15,7 @@ export const languageStrings = {
     guessPrompt: '🤔🤫🔤',
     guessInputPlaceholder: '⌨️🤔',
     guessedWords: '🤷‍🔤',
+    guessedWordAttemptNumberHeader: '#️⃣',
     guessColumnHeader: '🤷‍',
     matchingLettersColumnHeader: '✅',
   }
