@@ -41,5 +41,5 @@ test('calls `setLanguage` prop upon click', () => {
   const firstIcon = languageIcons.first();
   firstIcon.simulate('click');
 
-  expect(setLanguageMock).toHaveBeenCalled();
+  expect(setLanguageMock).toHaveBeenCalled(); 
 });

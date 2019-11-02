@@ -3,12 +3,15 @@ import React from 'react';
 
 // Dependencies
 import hookActions from 'actions/hookActions';
+import languageContext from 'contexts/languageContext';
 
 // Components
 import Input from 'components/jotto_hooks/Input';
+import LanguagePicker from 'components/jotto_hooks/LanguagePicker';
 
 const actionTypes = {
   SET_SECRET_WORD: 'SET_SECRET_WORD',
+  SET_LANGUAGE: 'SET_LANGUAGE',
 }
 
 /**
@@ -22,6 +25,8 @@ function reducer(state, action = {}) {
   switch(type) {
     case actionTypes.SET_SECRET_WORD:
       return { ...state, secretWord: payload };
+    case actionTypes.SET_LANGUAGE:
+      return { ...state, language: payload };
     default:
       return state;
   };
@@ -30,11 +35,10 @@ function reducer(state, action = {}) {
 export default function JottoHooks() {
   const [state, dispatch] = React.useReducer(
     reducer,
-    { secretWord: null },
+    { secretWord: null, language: 'en' },
   );
 
   /**
-   * 
    * @param {string} secretWord 
    */
   function setSecretWord(secretWord) {
@@ -44,11 +48,21 @@ export default function JottoHooks() {
     });
   }
 
+  /**
+   * @param {string} secretWord 
+   */
+  function setLanguage(language) {
+    dispatch({
+      type: actionTypes.SET_LANGUAGE,
+      payload: language,
+    });
+  }
+
   React.useEffect(() => {
     hookActions.getSecretWord(setSecretWord);
   }, [dispatch]);
 
-  const { secretWord } = state;
+  const { secretWord, language } = state;
 
   if (!secretWord) {
     return (
@@ -63,7 +77,11 @@ export default function JottoHooks() {
 
   return (
     <div className="container" data-test="component-jotto-hooks">
-      <Input secretWord={secretWord} />
+    <h1>Jotto Hooks</h1>
+      <languageContext.Provider value={language}>
+        <LanguagePicker setLanguage={setLanguage} />
+        <Input secretWord={secretWord} />
+      </languageContext.Provider>
     </div>
   );
 }
