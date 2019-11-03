@@ -5,6 +5,7 @@ import React from 'react';
 import hookActions from 'actions/hookActions';
 import languageContext from 'contexts/languageContext';
 import successContext from 'contexts/successContext'
+import guessedWordsContext from 'contexts/guessedWordsContext'
 
 // Components
 import Input from 'components/jotto_hooks/Input';
@@ -85,9 +86,12 @@ export default function JottoHooks() {
         <LanguagePicker setLanguage={setLanguage} />
         <successContext.SuccessProvider>
           <Congrats />
-          <Input secretWord={secretWord} />
+          <guessedWordsContext.GuessedWordsProvider>
+            <Input secretWord={secretWord} />
+            <GuessedWords />
+          </guessedWordsContext.GuessedWordsProvider>
         </successContext.SuccessProvider>
-        {/* <GuessWords /> */}
+          
       </languageContext.Provider>
     </div>
   );

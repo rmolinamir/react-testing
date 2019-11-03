@@ -14,10 +14,10 @@ import successContext from 'contexts/successContext';
 import Congrats from '.';
 
 /**
- * Factory function to create a mountWrapper for the Congrats component
+ * Factory function to create a ReactWrapper for the Congrats component
  * @function setup
  * @param {object} testValues - Context values specific to this setup.
- * @return {mountWrapper}
+ * @return {ReactWrapper}
  */
 function setup({ success = true, language = 'en' } = {}) {
   const wrapper = mount(
