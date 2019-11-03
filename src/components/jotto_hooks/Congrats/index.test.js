@@ -4,8 +4,11 @@ import { mount } from 'enzyme';
 
 // Dependencies
 import { findByTestAttr } from 'test/utils';
+import { languageStrings } from 'helpers/strings/index';
+
+// Contexts
 import languageContext from 'contexts/languageContext';
-import { languageStrings } from 'helpers/strings/index'
+import successContext from 'contexts/successContext';
 
 // Components
 import Congrats from '.';
@@ -16,10 +19,12 @@ import Congrats from '.';
  * @param {object} testValues - Context values specific to this setup.
  * @return {mountWrapper}
  */
-function setup({ success = false, language = 'en' }) {
+function setup({ success = true, language = 'en' } = {}) {
   const wrapper = mount(
     <languageContext.Provider value={language}>
-      <Congrats success={success} />
+      <successContext.SuccessProvider value={[success, jest.fn()]}>
+        <Congrats />
+      </successContext.SuccessProvider>
     </languageContext.Provider>
   );
   return wrapper;
@@ -66,12 +71,12 @@ describe('when `success` prop is `true`', () => {
 
 describe('languagePicker', () => {
   test('correctly renders congrats string in english', () => {
-    const wrapper = setup({ success: true });
+    const wrapper = setup();
     expect(wrapper.text()).toBe(languageStrings.en.congrats);
   });
 
   test('correctly renders congrats string in emoji', () => {
-    const wrapper = setup({ success: true, language: 'emoji' });
+    const wrapper = setup({ language: 'emoji' });
     expect(wrapper.text()).toBe(languageStrings.emoji.congrats);
   });
 });

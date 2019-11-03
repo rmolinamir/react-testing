@@ -4,10 +4,13 @@ import React from 'react';
 // Dependencies
 import hookActions from 'actions/hookActions';
 import languageContext from 'contexts/languageContext';
+import successContext from 'contexts/successContext'
 
 // Components
 import Input from 'components/jotto_hooks/Input';
 import LanguagePicker from 'components/jotto_hooks/LanguagePicker';
+import Congrats from 'components/jotto_hooks/Congrats';
+import GuessedWords from 'components/jotto_hooks/GuessedWords';
 
 const actionTypes = {
   SET_SECRET_WORD: 'SET_SECRET_WORD',
@@ -77,10 +80,14 @@ export default function JottoHooks() {
 
   return (
     <div className="container" data-test="component-jotto-hooks">
-    <h1>Jotto Hooks</h1>
+      <h1>Jotto Hooks</h1>
       <languageContext.Provider value={language}>
         <LanguagePicker setLanguage={setLanguage} />
-        <Input secretWord={secretWord} />
+        <successContext.SuccessProvider>
+          <Congrats />
+          <Input secretWord={secretWord} />
+        </successContext.SuccessProvider>
+        {/* <GuessWords /> */}
       </languageContext.Provider>
     </div>
   );

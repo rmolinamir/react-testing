@@ -2,8 +2,11 @@
 import React from 'react';
 
 // Dependencies
-import languageContext from 'contexts/languageContext';
 import stringsModule from 'helpers/strings/index'
+
+// Contexts
+import languageContext from 'contexts/languageContext';
+import successContext from 'contexts/successContext';
 
 /**
  * Functional react component for congrutulatory message.
@@ -11,8 +14,8 @@ import stringsModule from 'helpers/strings/index'
  * @param {object} - React.props
  * @returns {JSX.Element} - Rendered component (or null if `success` prop is `true`)
  */
-export default function Congrats(props) {
-  const { success } = props;
+export default function Congrats() {
+  const [success] = successContext.useSuccess();
   const language = React.useContext(languageContext);
   if (success) {
     return (
