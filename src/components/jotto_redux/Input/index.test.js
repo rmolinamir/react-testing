@@ -7,7 +7,7 @@ import Input, { Input as UnconnectedInput } from '.';
 /**
  * Factory function to create ShallowWrapper for the Input component.
  * @param {*} initialState - Initial state for this setup.
- * @return {ShallowWrapper}
+ * @returns {ShallowWrapper}
  */
 function setup(initialState = {}) {
   const store = storeFactory(initialState);

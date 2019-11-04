@@ -10,7 +10,7 @@ import { middlewares } from 'configureStore';
  * Return ShallowWrapper containing node(s) with the given data-test value.
  * @param {ShallowWrapper} wrapper - Enzyme shallow wrapper to search within
  * @param {string} val - Value of data-test attribute for search.
- * @return {ShallowWrapper}
+ * @returns {ShallowWrapper}
  */
 export function findByTestAttr(wrapper, val) {
   return wrapper.find(`[data-test="${val}"]`);
@@ -22,7 +22,7 @@ export function findByTestAttr(wrapper, val) {
  * do not throw a warning.
  * @param {React.Component} component - React component with propTypes property.
  * @param {object} conformingProps - Expected props object.
- * @return {void}
+ * @returns {void}
  */
 export function checkPropTypes(component, conformingProps) {
   const propError = checkProps(
@@ -39,7 +39,7 @@ export function checkPropTypes(component, conformingProps) {
  *  globals: rootReducer, middllewares
  * @param {object} initialState - Initial state for the store.
  * @function storeFactory
- * @return {Store} - Redux Store
+ * @returns {Store} - Redux Store
  */
 export function storeFactory(initialState) {
   const createStoreWithMiddleware = applyMiddleware(...middlewares);

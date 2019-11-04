@@ -3,12 +3,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Dependencies
+import stringsModule from 'helpers/strings/index';
+import { getLetterMatchCount } from 'helpers';
+
+// Contexts
 import languageContext from 'contexts/languageContext';
-import stringsModule from 'helpers/strings/index'
+import successContext from 'contexts/successContext';
+import guessedWordsContext from 'contexts/guessedWordsContext';
 
 export default function Input(props) {
+  const { secretWord } = props;
   const [currentGuess, setCurrentGuess] = React.useState('');
   const language = React.useContext(languageContext);
+  const [success, setSuccess] = successContext.useSuccess();
+  const [guessedWords, setGuessedWords] = guessedWordsContext.useGuessedWords();
 
   /**
    * Handles input `onChange` event by setting the `currentGuess` value.
@@ -22,14 +30,21 @@ export default function Input(props) {
   /**
    * Handles submit button `onClick` event by clearing the `currentGuess` value.
    * @param {object} event - Input on change event.
-   * TODO: Update `guessedWords` context.
-   * TODO: Check if `currentGuess` matches `secretWord`, and update `success` context
-   * if they are equal.
    */
   function handleOnClick(event) {
     event.preventDefault();
-    setCurrentGuess('');
+    if (currentGuess) {
+      const letterMatchCount = getLetterMatchCount(currentGuess, secretWord);
+      const newGuessedWords = [...guessedWords, { guessedWord: currentGuess, letterMatchCount }];
+      setGuessedWords(newGuessedWords);
+      if(currentGuess === secretWord) {
+        setSuccess(true);
+      }
+      setCurrentGuess('');
+    }
   }
+
+  if (success) return null;
 
   return (
     <div data-test="component-input">

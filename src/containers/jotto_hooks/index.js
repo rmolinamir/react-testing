@@ -22,7 +22,7 @@ const actionTypes = {
  * Reducer to update state, called automatically by `dispatch`.
  * @param {object} state - Existing state.
  * @param {object} action - Contain the `type` and `payload` properties for the state update.
- * @return {object} - New state.
+ * @returns {object} - New state.
  */
 function reducer(state, action = {}) {
   const { type, payload } = action;
@@ -82,6 +82,7 @@ export default function JottoHooks() {
   return (
     <div className="container" data-test="component-jotto-hooks">
       <h1>Jotto Hooks</h1>
+      <h6>{secretWord}</h6>
       <languageContext.Provider value={language}>
         <LanguagePicker setLanguage={setLanguage} />
         <successContext.SuccessProvider>

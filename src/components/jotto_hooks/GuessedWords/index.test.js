@@ -16,7 +16,7 @@ import guessedWordsContext from 'contexts/guessedWordsContext';
  * Factory function to create a ShallowWrapper for the GuessedWords component
  * @function setup
  * @param {array} guessedWords - Component guessed words array of objects.
- * @return {shallowWrapper}
+ * @returns {shallowWrapper}
  */
 function setup(guessedWords = []) {
   const useGuessedWordsMock = jest.fn().mockReturnValue([guessedWords, jest.fn()])

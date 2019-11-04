@@ -4,8 +4,12 @@ import { mount } from 'enzyme';
 
 // Dependencies
 import { findByTestAttr, checkPropTypes } from 'test/utils';
+import { languageStrings } from 'helpers/strings/index';
+
+// Contexts
 import languageContext from 'contexts/languageContext';
-import { languageStrings } from 'helpers/strings/index'
+import successContext from 'contexts/successContext';
+import guessedWordsContext from 'contexts/guessedWordsContext';
 
 // Components
 import Input from '.';
@@ -14,12 +18,15 @@ import Input from '.';
  * Setup function for app components
  * @returns {mountWrapper}
  */
-function setup({ secretWord = 'train', language = 'en' } = {}) {
-  console.log('setup language', language);
+function setup({ secretWord = 'train', language = 'en', success = false, } = {}) {
   return mount(
-    <languageContext.Provider value={language}>
-      <Input secretWord={secretWord} />
-    </languageContext.Provider>
+    <guessedWordsContext.GuessedWordsProvider>
+      <languageContext.Provider value={language}>
+        <successContext.SuccessProvider value={[success, jest.fn()]}>
+          <Input secretWord={secretWord} />
+        </successContext.SuccessProvider>
+      </languageContext.Provider>
+    </guessedWordsContext.GuessedWordsProvider>
   );
 }
 
@@ -97,4 +104,9 @@ describe('state controlled input field', () => {
     // Assertion
     expect(setCurrentGuessMock).toHaveBeenCalledWith('');
   });
+});
+
+it('input component does not show when success is true', () => {
+  const wrapper = setup({ success: true });
+  expect(wrapper.isEmptyRender()).toBe(true);
 });

@@ -17,7 +17,7 @@ const initialState = {
  * Factory function to create a ShallowWrapper for the Congrats component
  * @function setup
  * @param {object} props - Component props specific to this setup.
- * @return {ShallowWrapper}
+ * @returns {ShallowWrapper}
  */
 function setup(state = {}) {
   const store = storeFactory(state);

@@ -2,7 +2,7 @@
  * @method getLetterMatchCount
  * @param {*} guessedWord - Guessed word.
  * @param {*} secretWord - Secret word.
- * @return {number} - Number of letters matched between guessed word and secret word.
+ * @returns {number} - Number of letters matched between guessed word and secret word.
  */
 export function getLetterMatchCount(guessedWord, secretWord) {
   const guessedLetterSet = new Set(guessedWord.split(''));

@@ -5,7 +5,7 @@ const guessedWordsContext = React.createContext();
 
 /**
  * @function useGuessedWords
- * @return {array} guessedWordsContext value, which is a state of [value, setter].
+ * @returns {array} guessedWordsContext value, which is a state of [value, setter].
  */
 function useGuessedWords() {
   const context = React.useContext(guessedWordsContext);

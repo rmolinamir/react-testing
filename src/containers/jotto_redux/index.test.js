@@ -29,7 +29,7 @@ const initialState = {
  * @function setup
  * @param {object} props - Component props specific to this setup.
  * @param {object} state  - Initial state for setup.
- * @return {ShallowWrapper}
+ * @returns {ShallowWrapper}
  */
 function setup(initialProps = {}, initialState) {
   const store = storeFactory(initialProps);

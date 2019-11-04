@@ -5,7 +5,7 @@ const successContext = React.createContext();
 
 /**
  * @function useSuccess
- * @return {array} successContext value, which is a state of [value, setter].
+ * @returns {array} successContext value, which is a state of [value, setter].
  */
 function useSuccess() {
   const context = React.useContext(successContext);

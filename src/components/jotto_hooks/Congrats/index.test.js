@@ -17,7 +17,7 @@ import Congrats from '.';
  * Factory function to create a ReactWrapper for the Congrats component
  * @function setup
  * @param {object} testValues - Context values specific to this setup.
- * @return {ReactWrapper}
+ * @returns {ReactWrapper}
  */
 function setup({ success = true, language = 'en' } = {}) {
   const wrapper = mount(
