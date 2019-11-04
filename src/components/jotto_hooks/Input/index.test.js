@@ -97,10 +97,17 @@ describe('state controlled input field', () => {
   });
 
   it('state updates with value of input box upon change', () => {
+    // Finding inputBox and declaring mock event for onChange
+    const inputBox = findByTestAttr(wrapper, 'input-box');
+    const inputMockEvent = { target: { value: 'train' }, preventDefault() {} };
+    // Simulating onChange event
+    inputBox.simulate('change', inputMockEvent);
+    // Finding submitButton and declaring mock event for onSubmit
     const submitButton = findByTestAttr(wrapper, 'submit-button');
+    const submitMockEvent = { preventDefault() {} };
     // Simulating onClick event
-    const mockEvent = { preventDefault() {} };
-    submitButton.simulate('click', mockEvent);
+    inputBox.simulate('change', submitMockEvent);
+    submitButton.simulate('click', submitMockEvent);
     // Assertion
     expect(setCurrentGuessMock).toHaveBeenCalledWith('');
   });
